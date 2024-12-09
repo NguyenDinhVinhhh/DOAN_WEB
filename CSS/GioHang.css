@@ -1,0 +1,56 @@
+/* Tổng thể container */
+.cart-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Bảng giỏ hàng */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    color: #333;
+}
+
+.cart-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.cart-row:hover {
+    background-color: #f9f9f9;
+}
+
+/* Hình ảnh món ăn */
+.cart-item-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Tên món ăn */
+.cart-item-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Số lượng món ăn */
+.cart-item-quantity {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+}

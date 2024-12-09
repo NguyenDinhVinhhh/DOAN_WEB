@@ -1,0 +1,188 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    background-color: #f4f4f9;
+    color: #333;
+}
+a{
+    text-decoration: none;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+
+button {
+    width: 180px;
+    height: 50px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.actions a {
+    margin: 0 10px;
+    color: #dc3545;
+}
+
+.actions a:hover {
+    color: #c82333;
+}
+
+.all { 
+    display: flex; 
+    height: 100vh; 
+}
+
+.menu { 
+    flex: 1.5; 
+    background: #d6d2ac; 
+    padding: 20px 0; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); 
+}
+
+.menu img { 
+    width: 80px; 
+    height: 80px; 
+    margin-bottom: 10px; 
+}
+
+.menu b { 
+    font-size: 20px; 
+    margin-bottom: 20px; 
+    color: #5a4635; 
+}
+
+.menu ul { 
+    list-style: none; 
+    padding: 0; 
+    width: 100%; 
+}
+
+.menu li { 
+    width: 100%; 
+    text-align: center; 
+    padding: 15px 0; 
+    margin: 5px 0; 
+    background: #ece6c7; 
+    transition: background 0.3s; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.menu li:hover { 
+    background: #cbb88a; 
+}
+
+
+
+.menu li a {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.ul_temp {
+    display: none;
+    }
+
+    .li_temp{
+     font-weight: bold;
+    color: #333;
+    }
+    /* Hiển thị danh sách con khi hover */
+    .li_temp:hover .ul_temp {
+    display: block;
+    }
+
+/* Chức năng */
+.chucnang { 
+    background: #cbb88a; 
+    flex: 4; 
+    padding: 20px; 
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); 
+    overflow-y: auto; 
+}
+
+
+td input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+td input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+input[type="submit"] {
+    width: 100px;
+    padding: 15px  ;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    
+    
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+.add_td{
+    background-color: #4CAF50;
+    color: white;
+
+}
+.img_HoaDon img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.input_HoaDon{
+    width: 50px;
+}
+
+

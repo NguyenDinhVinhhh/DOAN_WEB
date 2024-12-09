@@ -1,0 +1,15 @@
+
+body{
+    padding: 0;
+    margin: 0;
+    height: 800px;
+}
+.sp{
+    width: 25%;
+    height: 400px;
+    background: #803bff;
+  
+    float: left;
+    
+   
+}
