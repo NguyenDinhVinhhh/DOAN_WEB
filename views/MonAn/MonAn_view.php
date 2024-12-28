@@ -44,7 +44,7 @@
                         <?php break;
                             }
                         endforeach ?>
-                        <td><a href="../MonAn/index.php?action=delete&MaMA=<?php echo htmlspecialchars($monan['MaMA']); ?>" onclick="return confirm('Bạn có muốn xóa không ?');">Xóa</a></td>
+                            <td><a href="../MonAn/index.php?action=delete&MaMA=<?php echo htmlspecialchars($monan['MaMA']); ?>&Hinhanh=<?php echo htmlspecialchars($monan['HinhAnh']); ?>" onclick="return confirm('Bạn có muốn xóa không ?');">Xóa</a></td>
                         <td><a href="../MonAn/index.php?action=edit&MaMA=<?php echo htmlspecialchars($monan['MaMA']); ?>">Sửa</a></td>
                     </tr>
                 <?php endforeach ?>

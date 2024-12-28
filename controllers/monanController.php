@@ -76,9 +76,19 @@ class MonanController
         require_once '../MonAn/add_MonAn.php';
     }
 
-    function delete($MaMA)
+    function delete($MaMA,$ten)
     {
         $monanmodel = new monan();
+        $relativePath = __DIR__ . "/../imgadmin"; // Nếu thư mục imgadmin nằm ngoài thư mục controller.
+    $targetDir = realpath($relativePath);
+    if ($targetDir !== false) {
+        $targetDir = rtrim($targetDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $imagePath = $targetDir . $ten; // Giả định 'HinhAnh' là tên cột lưu tên file ảnh trong DB.
+        // Kiểm tra và xóa ảnh
+        if (file_exists($imagePath)) {
+            unlink($imagePath); // Xóa tệp ảnh.
+        }
+    }
         $monanmodel->delete($MaMA);
         header("Location: ../MonAn/index.php");
         exit();

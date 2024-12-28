@@ -5,7 +5,7 @@ class Database
 
     public function __construct()
     {
-        $this->db = new mysqli('localhost', 'root', '', 'nhahang');
+        $this->db = new mysqli('localhost', 'root', 'root', 'nhahang');
 
         // Kiểm tra kết nối
         if ($this->db->connect_error) {

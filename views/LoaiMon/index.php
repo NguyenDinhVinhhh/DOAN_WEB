@@ -5,7 +5,9 @@ $controller = new loaimonController();
 
 $action = $_GET['action'] ?? 'index';
 $MaLoai = $_GET['MaLoai'] ?? null;
-
+session_start();
+$kt=$_SESSION['loginadmin'];
+if($kt==true){
 switch ($action) {
    
     case 'delete':
@@ -24,5 +26,6 @@ switch ($action) {
     default:
         $controller->index();
         break;
+}
 }
 ?>

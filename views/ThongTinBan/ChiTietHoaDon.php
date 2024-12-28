@@ -1,6 +1,6 @@
 <?php
 // Đặt đường dẫn gốc của dự án
-$base_url = "/DO_An_WEB%20(2)/";
+$base_url = "/NHAHANG/";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,13 +13,16 @@ $base_url = "/DO_An_WEB%20(2)/";
 
 </head>
 
+
+
+
 <body>
     <div class="all">
         <?php include "../menu.php" ?>
         <div class="chucnang">
             <h1>Chi Tiết Hóa Đơn</h1>
             <table>
-            <tr>
+                <tr>
                     <th>Hình ảnh</th>
                     <th>Tên Món Ăn</th>
                     <th>Số Lượng</th>
@@ -33,13 +36,14 @@ $base_url = "/DO_An_WEB%20(2)/";
                     $tongtien += $tong;
 
                 ?>
-                    <tr >
+                    <tr>
                         <td class="img_HoaDon">
-                            <img  src="<?php echo $base_url ?>imgadmin/<?php echo htmlspecialchars($gh['HinhAnh']); ?>" alt="Hình ảnh món ăn">
+                            <img src="<?php echo $base_url ?>imgadmin/<?php echo htmlspecialchars($gh['HinhAnh']); ?>" alt="Hình ảnh món ăn">
                         </td>
-                        <td ><?php echo htmlspecialchars($gh['TenMonAn']); ?></td>
-                        <td class="input_HoaDon"><input type="text" name="soluong" value="<?php echo htmlspecialchars($gh['SoLuong']); ?>"></td>
-                        <td ><?php echo $tong ?></td>
+                        <td><?php echo htmlspecialchars($gh['TenMonAn']); ?></td>
+                        <td class="input_HoaDon"> <?php echo htmlspecialchars($gh['SoLuong']); ?></td>
+                        <td> <?php echo $tong ?></td>
+
                     </tr>
                 <?php
                 endforeach;  ?>

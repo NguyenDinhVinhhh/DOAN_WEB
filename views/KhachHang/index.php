@@ -4,6 +4,9 @@ require_once '../../controllers/khachhangController.php';
 $controller = new khachhangController();
 $action = $_GET['action'] ?? 'index';
 $Makh = $_GET['MaKH'] ?? null;
+session_start();
+$kt=$_SESSION['loginadmin'];
+if($kt==true){
 switch ($action) {
     case 'add': 
         $controller->addKhachHang();
@@ -19,6 +22,7 @@ switch ($action) {
         break;
     default:
         $controller->index();
+}
 }
 ?>
 

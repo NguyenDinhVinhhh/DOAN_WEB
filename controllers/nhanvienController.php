@@ -13,7 +13,7 @@ class nhanvienController
                 require_once __DIR__ . '../../views/NhanVien/NhanVien_view.php';
         }
         else{
-        header("Location:  /DO_An_WEB%20(2)/views/admin.php");
+        header("Location:  /NHAHANG/views/admin.php");
         exit();
         }
     }

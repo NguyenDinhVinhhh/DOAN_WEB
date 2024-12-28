@@ -6,7 +6,6 @@ $maMA = $_GET['MaMA'] ?? null;
 $MaBan = $_GET['MaBan'] ?? null;
 $Soluong = $_GET['soluong'] ?? null;
 $temp = $_GET['temp'] ?? null;
-$time = $_GET['time'] ?? null;
 $maloai = $_GET['MaLoai'] ?? null;
 switch ($action) {
     case 'login': {
@@ -38,7 +37,7 @@ switch ($action) {
             break;
         }
     case 'GioHang': {
-            $controllers->GioHang($temp, $time);
+            $controllers->GioHang($temp);
             break;
         }
     case 'deleteGioHang': {
@@ -47,10 +46,6 @@ switch ($action) {
         }
     case 'BanAn': {
             $controllers->getallBanAn();
-            break;
-        }
-    case 'end': {
-            $controllers->end($time);
             break;
         }
     case 'MenuLoaiMon': {
@@ -62,4 +57,25 @@ switch ($action) {
             $controllers->index();
             break;
         }
+    case 'lienhe': {
+
+        $controllers->lienhe();
+        break;
+    }
+    case 'ThemGioHang': {
+
+        $controllers->ThemGioHang($maMA);
+        break;
+    }
+    case 'HoaDon': {
+
+        $controllers->HienThiHoaDon();
+        break;
+    }
+    case 'end': {
+
+        $controllers->End();
+        break;
+    }
+    
 }

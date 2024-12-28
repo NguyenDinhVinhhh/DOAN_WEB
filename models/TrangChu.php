@@ -30,20 +30,29 @@ class TrangChu extends BaseModel
     return $stmt->execute();
 
    } 
-   public function updateBan($maban, $Makh)
+   public function updateBan($MaKhunggio,$ghichu, $Makh,$time)
    {
-      $stmt = $this->db->prepare("UPDATE thongtindatban_khachhang_ban_monan  SET MaBan=? WHERE  MaKhachHang=?");
-      $stmt->bind_param("ii", $maban, $Makh);
-      return $stmt->execute();
+      $maNV=1;
+      $stmt=$this->db->prepare("INSERT INTO ThongTinDatBan (MaNV,MaKhunggio,ghichu,MaKhachHang,NgayDat) VALUES (?,?,?,?,?)");
+     $stmt->bind_param("iisis", $maNV,$MaKhunggio,$ghichu,$Makh,$time);
+     return $stmt->execute();
    }
    function addThongTinDatBan($maKhachHang,$time) {
       $maNV=1;
-       $stmt=$this->db->prepare("INSERT INTO ThongTinDatBan (MaNV, MaKhachHang,NgayDat)VALUES (?,?,?)");
+       $stmt=$this->db->prepare("INSERT INTO ThongTinDatBan (MaNV, MaKhachHang,NgayDat) VALUES (?,?,?)");
       $stmt->bind_param("iis", $maNV,$maKhachHang,$time);
       return $stmt->execute();
      
   }
-
+  function soluonggiohang($Makh)
+{
+    $stmt = $this->db->prepare("SELECT SUM(Soluong) AS total FROM thongtindatban_khachhang_ban_monan WHERE MaKhachHang = ? and MaTTDB=0");
+    $stmt->bind_param("i", $Makh);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row['total'] ? $row['total'] : 0;
+}
 
     
 }

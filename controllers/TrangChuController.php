@@ -1,9 +1,10 @@
 <?php
 require_once __DIR__ . '/../models/TrangChu.php';
 require_once __DIR__ . '/../models/GioHang.php';
-require_once __DIR__ . '/../models/Ban.php';
+require_once __DIR__ . '/../models/khunggio.php';
 require_once __DIR__ . '/../models/ThongTinDatBan.php';
 require_once __DIR__ . '/../models/LoaiMon.php';
+require_once __DIR__ . '/../models/HoaDon.php';
 class TrangChuController
 {
     function MonAn()
@@ -13,13 +14,7 @@ class TrangChuController
         $monlist = $monmodel->getAll();
         $loaimonModel = new loaimon();
         $loaimonList = $loaimonModel->getAll();
-        if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
-
-            header("Location: views/index.php");
-            exit();
-        } else {
-            require_once __DIR__ . '../../views/MonAn.php';
-        }
+        require_once __DIR__ . '../../views/MonAn.php';
     }
     function MenuLoaiMon($maloai)
     {
@@ -28,19 +23,12 @@ class TrangChuController
         $monlist = $monmodel->MenuLoaiMon($maloai);
         $loaimonModel = new loaimon();
         $loaimonList = $loaimonModel->getAll();
-        if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
-
-            header("Location: views/index.php");
-            exit();
-        } else {
-            require_once __DIR__ . '../../views/MenuLoaiMon.php';
-        }
+        require_once __DIR__ . '../../views/MenuLoaiMon.php';
     }
 
     public function index()
     {
         session_start();
-        $_SESSION['username'] = null;
         $monmodel = new TrangChu();
         $monlist = $monmodel->getAll();
         require_once __DIR__ . '../../views/index.php';
@@ -50,20 +38,23 @@ class TrangChuController
     {
         $KHmodel = new TrangChu();
         $KHlist = $KHmodel->KhachHang();
-        session_start();
-        if ($_SERVER['REQUEST_METHOD'] =='POST') {
+        $er = "";
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $username = ($_POST['username']);
             $telephone = ($_POST['telephone']);
-            var_dump($username);
+
             foreach ($KHlist as $kh) {
-                if ($username ==$kh['Hoten'] && $telephone ==$kh['Sdt']) {
+                if ($username == $kh['Hoten'] && $telephone == $kh['Sdt']) {
                     $_SESSION['username'] = $username;
                     $_SESSION['logged_in'] = true;
-                    header('Location: /DO_An_WEB%20(2)/index.php?action=TrangChu');
+                    header('Location: /NHAHANG/index.php?action=index');
                     exit();
                 }
             }
-            echo "Incorrect username or password!";
+            $er =  "Incorrect username or password!";
         }
         require_once __DIR__ . '../../views/login.php';
     }
@@ -92,7 +83,7 @@ class TrangChuController
             }
             if (empty($errors)) {
                 $db->addKhadhang($email, $name, $sdt);
-                header('Location: /DO_An_WEB%20(2)/index.php?action=login');
+                header('Location: /NHAHANG/index.php?action=login');
                 exit;
             } else
                 require_once __DIR__ . '../../views/signup.php';
@@ -103,13 +94,19 @@ class TrangChuController
     public function  GioiThieu()
     {
         session_start();
-        if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
+        header("Location: views/GioiThieu.php");
+        // if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
 
-            header("Location: views/GioiThieu.php");
-            exit();
-        } else {
-            require_once __DIR__ . '../../views/GioiThieulogin.php';
-        }
+        //     header("Location: views/GioiThieu.php");
+        //     exit();
+        // } else {
+        //     require_once __DIR__ . '../../views/GioiThieulogin.php';
+        // }
+    }
+    public function lienhe()
+    {
+        session_start();
+        header("Location: views/lienhe.php");
     }
     public function  TrangChu()
     {
@@ -117,7 +114,7 @@ class TrangChuController
         $monmodel = new TrangChu();
         $monlist = $monmodel->getAll();
         if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
-            header('Location: /DO_An_WEB%20(2)/index.php');
+            header('Location: /NHAHANG/index.php');
             exit();
         } else {
             require_once __DIR__ . '../../views/TrangChu.php';
@@ -132,11 +129,12 @@ class TrangChuController
             setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
         }
         session_destroy();
-        header('Location: /DO_An_WEB%20(2)/index.php');
+        header('Location: /NHAHANG/index.php');
         exit();
     }
     public function TimMaKH($makh)
     {
+        $ma = '';
         $KHmodel = new TrangChu();
         $KHlist = $KHmodel->KhachHang();
         foreach ($KHlist as $kh) {
@@ -174,10 +172,10 @@ class TrangChuController
 
         require_once __DIR__ . '../../views/MonAn.php';
     }
-    public function GioHang($temp, $time)
+    public function GioHang($temp)
     {
         session_start();
-        $username = $_SESSION['username'];
+        $username = $_SESSION['username'] ?? null;
         $Makh = $this->TimMaKH($username);
         $giohangmodel = new GioHang();
         $GHlist = $giohangmodel->GetallGioHang($Makh);
@@ -195,7 +193,7 @@ class TrangChuController
         $Makh = $this->TimMaKH($username);
         $giohangmodel = new GioHang();
         $giohangmodel->removeGioHang($Makh, $maMA);
-        header('Location: /DO_An_WEB%20(2)/index.php?action=GioHang&temp=giohang');
+        header('Location:/NHAHANG/index.php?action=GioHang&temp=giohang');
         exit();
     }
 
@@ -204,31 +202,81 @@ class TrangChuController
         session_start();
         $username = $_SESSION['username'];
         $Makh = $this->TimMaKH($username);
-        $banmodel = new Ban();
+        $banmodel = new khunggio();
         $banlist = $banmodel->getallBan();
         $banedit = new TrangChu();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $MaBan = $_POST['MaBan'] ?? '';
+            session_start();
+            $MaKhunggio = $_POST['MaKhunggio'] ?? '';
             $time = $_POST['time'] ?? '';
-            $banedit = new TrangChu();
-            $banedit->updateBan($MaBan, $Makh);
-            header('Location: /DO_An_WEB%20(2)/index.php?action=GioHang&time=' . urlencode($time));
-
-            exit();
+            $ghichu = $_POST['ghichu'] ?? '';
+            $_SESSION['MaKhunggio'] = $MaKhunggio;
+            $_SESSION['time'] = $time;
+            $_SESSION['ghichu'] = $ghichu;
+            header("Location: /NHAHANG/index.php?action=HoaDon");
+            exit;
         }
         require_once __DIR__ . '../../views/BanAn.php';
     }
-    public function end($time)
+    public  function ThemGioHang($maMA)
+    {
+        session_start();
+        $temp = 0;
+        $username = $_SESSION['username'];
+        $Makh = $this->TimMaKH($username);
+        $giohangModel = new GioHang();
+        $giohanglist = $giohangModel->getall();
+        foreach ($giohanglist as $gh) {
+            if ($gh['MaKhachHang'] == $Makh && $gh['MaMA'] == $maMA && $gh['MaTTDB'] == 0) {
+                $temp = 1;
+                $sl = $gh['Soluong'] + 1;
+                $giohangModel->update($sl, $maMA, $Makh);
+                break;
+            }
+        }
+        if ($temp == 0) {
+            $giohangModel->addGH($Makh, $maMA, 1);
+        }
+        header('Location:/NHAHANG/index.php?action=GioHang&temp=giohang');
+        exit();
+    }
+    public function HienThiHoaDon()
     {
         session_start();
         $username = $_SESSION['username'];
         $Makh = $this->TimMaKH($username);
+        $Hdmode = new GioHang();
+        $HDlist = $Hdmode->allhoadon($Makh, 0);
+        require_once __DIR__ . '../../views/HoaDon.php';
+    }
+    public function End()
+    {
+        session_start();
+        $username = $_SESSION['username'];
+        $Makh = $this->TimMaKH($username);
+        $banedit = new TrangChu();
+        $MaKhunggio = $_SESSION['MaKhunggio'] ?? '';
+        $time = $_SESSION['time'] ?? '';
+        $ghichu = $_SESSION['ghichu'] ?? '';
+        $banedit->updateBan($MaKhunggio, $ghichu, $Makh, $time);
         $TTDB = new TrangChu();
-        $TTDB->addThongTinDatBan($Makh, $time);
         $UpdateGioHang = new GioHang();
         $MaTTDBModel = new ThongTinDatBan();
-        $MaTTDB = $MaTTDBModel->GetFirstTTDB($Makh);
+        $Hoadon = new HoaDon();
+        $MaTTDB = $MaTTDBModel->GetLargestTTDB($Makh);
         $UpdateGioHang->updateGioHang($MaTTDB, $Makh);
-        require_once __DIR__ . '../../views/End.php';
+        $Hoadon->addHĐ(Mattdb: $MaTTDB);
+        $Mahd = $Hoadon->GetFirstHoaDon($MaTTDB);
+        $listgiohang = $UpdateGioHang->allhoadon($Makh, $MaTTDB);
+        foreach ($listgiohang as $gh) {
+
+            $dongia = $gh['DonGia'];
+            $MaMA = $gh['MaMA'];
+            $Soluong = $gh['SoLuong'];
+            $thanhtien = $dongia * $Soluong;
+            $Hoadon->addHĐ_MA($Mahd, $thanhtien, $dongia, $MaMA, $Soluong);
+        }
+        header('Location:/NHAHANG/views/End.php');
+        exit();
     }
 }

@@ -1,24 +1,28 @@
-<?php 
-require_once '../../controllers/BanController.php';
-$controllers= new banController();
-$action=$_GET['action'] ?? null;
-$maban=$_GET['MaBan'] ?? null;
-switch($action)
-{
-    case 'add':
-        $controllers->addBan();
-        break;
-     case 'delete':
-        if($maban!=null)
-         $controllers->deleteBan($maban);
-         break;
-     case 'edit':
-        if($maban!=null)
-        $controllers->editBan($maban);
-         break;
-    default:
-    $controllers->index();
-    break;
-}
+<?php
+require_once '../../controllers/banController.php';
 
+$controller = new banController();
+
+$action = $_GET['action'] ?? 'index';
+$MaLoai = $_GET['MaLoai'] ?? null;
+
+switch ($action) {
+   
+    case 'delete':
+    if ($MaLoai) {
+        $controller->deleteLoaiMon( $MaLoai);
+    }
+    break;
+    case 'edit':
+        if ($MaLoai) {
+            $controller->edit($MaLoai);
+        }
+        break;
+        case 'add':
+            $controller->addLoaiMon();
+            break;
+    default:
+        $controller->index();
+        break;
+}
 ?>

@@ -10,9 +10,8 @@ class GioHang extends BaseModel
    public function addGH($Makh, $MaMA, $Soluong)
    {
       $MaTTDB = 0;
-      $MaBan = 100;
-      $stmt = $this->db->prepare("INSERT INTO thongtindatban_khachhang_ban_monan (MaTTDB, MaKhachHang, MaBan, MaMA, Soluong) VALUES (?, ?, ?, ?, ?) ");
-      $stmt->bind_param("iiiii", $MaTTDB, $Makh, $MaBan, $MaMA, $Soluong);
+      $stmt = $this->db->prepare("INSERT INTO thongtindatban_khachhang_ban_monan (MaTTDB, MaKhachHang,MaMA, Soluong) VALUES (?, ?, ?, ?) ");
+      $stmt->bind_param("iiii", $MaTTDB, $Makh, $MaMA, $Soluong);
       return $stmt->execute();
    }
    public function update($soluong, $maMA, $Makh)
@@ -58,7 +57,6 @@ class GioHang extends BaseModel
    {
       $stmt = $this->db->prepare("  
             SELECT 
-            Ban.ViTri,
             MonAn.MaMA,
             MonAn.TenMonAn, 
             MonAn.HinhAnh,
@@ -68,10 +66,8 @@ class GioHang extends BaseModel
             thongtindatban_khachhang_ban_monan
         INNER JOIN 
             MonAn ON thongtindatban_khachhang_ban_monan.MaMA = MonAn.MaMA
-        INNER JOIN 
-            Ban ON thongtindatban_khachhang_ban_monan.MaBan = Ban.MaBan
         WHERE 
-            thongtindatban_khachhang_ban_monan.MaKhachHang = ? AND MATTDB=0
+            thongtindatban_khachhang_ban_monan.MaKhachHang = ? AND MATTDB = 0
     ");
 
       if (!$stmt) {
@@ -87,18 +83,19 @@ class GioHang extends BaseModel
        // Chuẩn bị truy vấn SQL
        $stmt = $this->db->prepare("  
            SELECT 
-               Ban.ViTri,
+             
                MonAn.MaMA,
                MonAn.TenMonAn, 
                MonAn.HinhAnh,
                MonAn.DonGia,
-               thongtindatban_khachhang_ban_monan.SoLuong
+               thongtindatban_khachhang_ban_monan.SoLuong,
+               thongtindatban.MaNV 
            FROM 
                thongtindatban_khachhang_ban_monan
            INNER JOIN 
                MonAn ON thongtindatban_khachhang_ban_monan.MaMA = MonAn.MaMA
-           INNER JOIN 
-               Ban ON thongtindatban_khachhang_ban_monan.MaBan = Ban.MaBan
+              INNER JOIN 
+               thongtindatban ON thongtindatban_khachhang_ban_monan.MaTTDB  =thongtindatban.MaTTDB 
            WHERE 
                thongtindatban_khachhang_ban_monan.MaKhachHang = ? 
                AND thongtindatban_khachhang_ban_monan.MaTTDB = ?
@@ -161,5 +158,31 @@ class GioHang extends BaseModel
       } else {
          echo "Không tìm thấy món ăn với MaKhachHang và MaMA tương ứng.";
       }
+   }
+   public function allhoadon ($MaKhachHang,$Mattdb)
+   {
+      $stmt = $this->db->prepare("  
+            SELECT 
+            MonAn.MaMA,
+            MonAn.DonGia,
+            MonAn.HinhAnh,
+            MonAn.TenMonAn,
+            thongtindatban_khachhang_ban_monan.SoLuong
+        FROM 
+            thongtindatban_khachhang_ban_monan
+        INNER JOIN 
+            MonAn ON thongtindatban_khachhang_ban_monan.MaMA = MonAn.MaMA
+        WHERE 
+            thongtindatban_khachhang_ban_monan.MaKhachHang = ?
+             AND thongtindatban_khachhang_ban_monan.MaTTDB =?
+    ");
+
+      if (!$stmt) {
+         die("Lỗi prepare statement: " . $this->db->error);
+      }
+      $stmt->bind_param("ii", $MaKhachHang,$Mattdb);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      return $result->fetch_all(MYSQLI_ASSOC);
    }
 }

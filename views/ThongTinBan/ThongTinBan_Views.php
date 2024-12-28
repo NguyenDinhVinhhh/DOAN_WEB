@@ -14,36 +14,27 @@
         <?php include "../menu.php" ?>
         <div class="chucnang">
             <div>
-                <h1>Thông Tin Khách Hàng Đặt</h1>
+                <h1>Đơn Đặt</h1>
                 <table>
-                    <tr>
-                        <th>Ngày Đặt</th>
-                        <th>Họ Tên</th>
-                        <th>Số Điện Thoại</th>
-                        <th>Email </th>
-                        <th>Số Lượng Bàn</th>
-                        <th>Chi Tiết Hóa Đơn</th>
-                        <th>Xóa</th>
-                        <th>Duyệt</th>
 
-                    </tr>
                     <?php foreach ($TTBlist as $tt):
                         if ($tt['MaNV'] == 1) { ?>
 
                             <tr>
+                                <th>Chưa Duyệt </th>
                                 <td><?php echo htmlspecialchars($tt['NgayDat']); ?></td>
                                 <td><?php echo htmlspecialchars($tt['Hoten']); ?></td>
                                 <td><?php echo htmlspecialchars($tt['Sdt']); ?></td>
                                 <td><?php echo htmlspecialchars($tt['Email']); ?></td>
+                                <td><?php echo htmlspecialchars($tt['ghichu']); ?></td>
+                                <td><?php echo htmlspecialchars($tt['TenKhungGio']); ?></td>
+                                <td><a href="../../views/ThongTinBan/index.php?action=Chonban&MaTTDB=<?php echo $tt['MaTTDB']; ?>&NgayDat=<?php echo $tt['NgayDat']; ?>&MaKhunggio=<?php echo $tt['MaKhunggio']; ?>">Chọn Bàn </a></td>
                                 <form action="../../views/ThongTinBan/index.php" method="POST">
-                                    <td>
-                                        <input type="number" name="Soluongban" required>
-                                    </td>
                                     <td class="actions">
                                         <a href="../../views/ThongTinBan/index.php?action=chitiethoadon&Makh=<?php echo $tt['MaKhachHang']; ?>&MaTTDB=<?php echo $tt['MaTTDB']; ?>">Chi Tiết Hóa Đơn</a>
                                     </td>
                                     <td class="actions">
-                                        <a href=" ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</a>
+                                        <a href="../../views/ThongTinBan/index.php?action=deletethongtindatban&Makh=<?php echo $tt['MaKhachHang']; ?>&MaTTDB=<?php echo $tt['MaTTDB']; ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</a>
                                     </td>
                                     <td class="actions">
                                         <button type="submit" value="duyetdon">Duyệt</button>
@@ -53,35 +44,41 @@
                                     </td>
                                 </form>
                             </tr>
+
                     <?php }
                     endforeach; ?>
                 </table>
-            </div>
-            <div>
+                <h1>Đơn Đã Duyệt</h1>
                 <table>
-
-                    <h1>Thông Tin Đơn Đã Duyệt</h1>
                     <?php foreach ($TTBlist as $tt):
                         if ($tt['MaNV'] != 1) { ?>
-
-
                             <tr>
+                                <th>Đã Duyệt </th>
                                 <td><?php echo htmlspecialchars($tt['NgayDat']); ?></td>
                                 <td><?php echo htmlspecialchars($tt['Hoten']); ?></td>
                                 <td><?php echo htmlspecialchars($tt['Sdt']); ?></td>
                                 <td><?php echo htmlspecialchars($tt['Email']); ?></td>
+                                <td><?php echo htmlspecialchars($tt['ghichu']); ?></td>
+                                <td><?php echo htmlspecialchars($tt['TenKhungGio']); ?></td>
                                 <td>NV duyệt Đơn:<?php echo htmlspecialchars($tt['HotenNV']); ?></td>
+                                <td class="actions">
+                                    <a href="../../views/ThongTinBan/index.php?action=inhoadon&MaTTDB=<?php echo $tt['MaTTDB']; ?>">Chi Tiết Hóa Đơn</a>
+                                </td>
+                                <td class="actions">
+                                    <a href="../../views/ThongTinBan/index.php?action=xemban&MaTTDB=<?php echo $tt['MaTTDB']; ?>">Xem bàn </a>
+                                </td>
+                                <td class="actions">
+                                    <a href="../../views/ThongTinBan/index.php?action=deletethongtindatban&Makh=<?php echo $tt['MaKhachHang']; ?>&MaTTDB=<?php echo $tt['MaTTDB']; ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</a>
+                                </td>
                             </tr>
-                        <?php } ?>
 
-
-                    <?php
+                    <?php }
                     endforeach; ?>
                 </table>
             </div>
+
         </div>
     </div>
-
 
 
 </body>
